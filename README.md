@@ -1,4 +1,4 @@
-# badtranslator
+# Bad Translator
 A very bad translator for creating funny texts based on LibreTranslate. Translates a text x times into a random language.
 
 HOW TO SETUP:
