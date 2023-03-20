@@ -8,5 +8,4 @@ HOW TO SETUP:
    - Depending on your internet connection, it might take 5-15 minutes to download all the languages.
 3. Run my code.
 
-Enjoy!
-Feature recommendations are always welcome!
+Enjoy! Feature requests are always welcome!
