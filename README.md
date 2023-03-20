@@ -9,3 +9,4 @@ HOW TO SETUP:
 3. Run my code.
 
 Enjoy!
+Feature recommendations are always welcome!
