@@ -9,7 +9,7 @@ HOW TO SETUP:
    - Depending on your internet connection, it might take 5-15 minutes to download all the languages.
 4. Run my code with ```python3 badtranslator.py```
 
-Optional: It may be easier installing git with ```sudo apt-get install git-all``` and running ```git clone https://github.com/awentator/badtranslator```
+Optional: It may be easier installing git with ```sudo apt-get install git-all``` and running ```git clone https://github.com/awentator/badtranslator```. Then cd into your folder with ```cd badtranslator```.
 (For further information, see https://github.com/git-guides/install-git)
 
 Enjoy! Feature requests are always welcome!
