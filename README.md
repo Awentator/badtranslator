@@ -8,4 +8,7 @@ HOW TO SETUP:
    - Depending on your internet connection, it might take 5-15 minutes to download all the languages.
 3. Run my code.
 
+Optional: It may be easier installing git with ```sudo apt-get install git-all``` and running ```git clone https://github.com/awentator/badtranslator```
+(For further information, see https://github.com/git-guides/install-git)
+
 Enjoy! Feature requests are always welcome!
