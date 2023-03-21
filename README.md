@@ -1,6 +1,8 @@
 # Bad Translator
 A very bad translator for creating funny texts based on LibreTranslate. Translates a text x times into a random language.
 
+Also see implementable branch for implementing to your code!
+
 HOW TO SETUP:
 1. Download and intall the Docker Daemon. See https://docs.docker.com/get-docker/
 2. Install python with ```sudo apt-get install python3```
