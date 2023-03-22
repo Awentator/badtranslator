@@ -9,10 +9,13 @@ source = "de"
 times = int(input("\n\n\nHow many times do you want to translate your text?     "))
 text = input("Insert your text:                                      ")
 
-if times < 1:
+if not isinstance(times, int) and times >= 1:
     raise Exception("The number of times has to be a number > or = 1")
 elif not isinstance(text, str):
     raise Exception("The text has to be a string!")
+
+progress = int(round(30/times))
+percentage = int(round(100/times, 1))
 
 start = time.time()
 translation_start = time.time()
@@ -33,7 +36,10 @@ request = {
 
 translation = json.loads(str(requests.post(url, json = request).text))["translatedText"]
 measured_time = time.time() - translation_start
-print("\n\n\n1 - Translating from de to", lang1, "-", round(measured_time, 2), "s")
+
+missing = 30-progress
+
+print("\n\n\n1 - Translating from de to", lang1, "-", round(measured_time, 2), "s [", progress*"#", missing*"-", "] -", percentage, "%")
 
 for i in range(0, times-1):
     translation_start = time.time()
@@ -53,8 +59,11 @@ for i in range(0, times-1):
     
     translation = json.loads(str(requests.post(url, json = request).text))["translatedText"]
     measured_time = time.time() - translation_start
-    print(i+2, "- Translating from", lang1, "to", lang2, "-", round(measured_time, 2), "s")
+    
+    missing = 30-(i+2)*progress
+    print(i+2, "- Translating from", lang1, "to", lang2, "-", round(measured_time, 2), "s [", (i+2)*progress*"#", missing*"-", "] -", percentage+percentage*(i+1), "%")
 
+print("\nTranslating back to source:", source)
 translation_start = time.time()
 
 request = {
