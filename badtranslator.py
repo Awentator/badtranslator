@@ -4,8 +4,10 @@ import requests, json, random
 
 #Standard translate method
 def translate(url, times, text, source):
-    #Return error message if no valid input is provided
+    #Throw error message if no valid input is provided
     if isinstance(url, str) or isinstance(times, int) or isinstance(text, str) or isinstance(source, str):
+        pass
+    else:
         raise TypeError("Invalid input")
     
     #Every LibreTranslate supported language
@@ -67,6 +69,12 @@ def translate(url, times, text, source):
 
 #Translate method, outputs translation to file
 def translateToFile(url, times, text, source, filename):
+    #Throw error message if no valid input is provided
+    if isinstance(filename, str):
+        pass
+    else:
+        raise TypeError("Invalid input")
+
     #Translate
     translation = translate(url, times, text, source)
 
