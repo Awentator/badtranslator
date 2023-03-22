@@ -9,7 +9,7 @@ source = "de"
 times = int(input("\n\n\nHow many times do you want to translate your text?     "))
 text = input("Insert your text:                                      ")
 
-if not isinstance(times, int) and times >= 1:
+if times < 1:
     raise Exception("The number of times has to be a number > or = 1")
 elif not isinstance(text, str):
     raise Exception("The text has to be a string!")
