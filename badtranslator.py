@@ -9,9 +9,9 @@ url = 'http://localhost:5000/translate'
 languages = ["en", "ar", "az", "ca", "zh", "cs", "da", "nl", "eo", "fi", "fr", "de", "el", "he", "hi", "hu", "id", "ga", "it", "ja"]
 
 #Input information
-source = input("What language is your text coming from? (Default: German)")
-times = int(input("\n\n\nHow many times do you want to translate your text?     "))
-text = input("Insert your text:                                      ")
+source = input("\n\n\nWhat language is your text coming from? (Default: German) ")
+times = int(input("How many times do you want to translate your text?        "))
+text = input("Insert your text:                                         ")
 
 #Search for errors and throw exceptions
 if not isinstance(times, int) and times >= 1:
