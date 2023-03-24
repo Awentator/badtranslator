@@ -1,4 +1,4 @@
-#BadTranslator - interactive branch. By Awentator. Version: 22.03.2023
+#BadTranslator - interactive branch. By Awentator. Version: 24.03.2023
 #Repository (report issues): https://github.com/Awentator/badtranslator/
 import requests, json, random, time
 
@@ -9,9 +9,33 @@ url = 'http://localhost:5000/translate'
 languages = ["en", "ar", "az", "ca", "zh", "cs", "da", "nl", "eo", "fi", "fr", "de", "el", "he", "hi", "hu", "id", "ga", "it", "ja"]
 
 #Input information
-source = input("\n\n\nWhat language is your text coming from? (Default: German) ")
+source = input("\n\n\nWhat language is your text coming from?                   ")
 times = int(input("How many times do you want to translate your text?        "))
-text = input("Insert your text:                                         ")
+readfromfile = input("Do you want to insert the text or read from file? (i/r)   ")
+
+#If text should be imported from a file
+if readfromfile == "r":
+    #Ask for file name, open and read it
+    name = input ("What is the file's name? ")
+    file = open(name, "r")
+    text = file.read()
+elif readfromfile == "i":
+    #Insert the text
+    text = input("Insert your text:                                         ")
+else:
+    while readfromfile != "r" or "i":
+        #Ask for every time no valid input is given
+        readfromfile = input("Type 'r' to read from file or 'i' to directly insert your text: ")
+        if readfromfile == "r":
+            #Ask for file name, open and read it
+            name = input ("What is the file's name? ")
+            file = open(name, "r")
+            text = file.read()
+            break
+        elif readfromfile == "i":
+            #Insert the text
+            text = input("Insert your text:                                         ")
+            break
 
 #Search for errors and throw exceptions
 if not isinstance(times, int) and times >= 1:
@@ -22,10 +46,6 @@ elif not isinstance(text, str):
 #Progress and percentage for progress bar
 progress = int(round(30/times))
 percentage = int(round(100/times, 1))
-
-if source is None or "":
-    #Change to default language
-    source = "de"
 
 #Time measurement
 start = time.time()
@@ -141,8 +161,8 @@ else:
             file.close()
 
             print("Saved!")
-            pass
+            break
         #If file should be saved: no
         elif save == "n":
             #Proceed/ignore if file should not be saved
-            pass
+            break
