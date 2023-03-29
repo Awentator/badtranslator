@@ -1,4 +1,4 @@
-#BadTranslator - interactive branch. By Awentator. Version: 24.03.2023
+#BadTranslator - interactive branch. By Awentator. Version: 29.03.2023
 #Repository (report issues): https://github.com/Awentator/badtranslator/
 import requests, json, random, time
 
@@ -8,8 +8,19 @@ url = 'http://localhost:5000/translate'
 #Every LibreTranslate supported language
 languages = ["en", "ar", "az", "ca", "zh", "cs", "da", "nl", "eo", "fi", "fr", "de", "el", "he", "hi", "hu", "id", "ga", "it", "ja"]
 
+#Define default request
+def api(q, source, target):
+    request = {
+	    'q': q,
+	    'source': source,
+	    'target': target,
+	    'format': "text",
+	    'api_key': ""
+    }
+    return request
+
 #Input information
-source = input("\n\n\nWhat language is your text coming from?                   ")
+source = input("\n\n\nInsert input language or 'auto' for auto detection.       ")
 times = int(input("How many times do you want to translate your text?        "))
 readfromfile = input("Do you want to insert the text or read from file? (i/r)   ")
 
@@ -28,7 +39,7 @@ else:
         readfromfile = input("Type 'r' to read from file or 'i' to directly insert your text: ")
         if readfromfile == "r":
             #Ask for file name, open and read it
-            name = input ("What is the file's name? ")
+            name = input ("What is the file name?   ")
             file = open(name, "r")
             text = file.read()
             break
@@ -38,10 +49,39 @@ else:
             break
 
 #Search for errors and throw exceptions
-if not isinstance(times, int) and times >= 1:
-    raise Exception("The number of times has to be a number > or = 1")
-elif not isinstance(text, str):
-    raise Exception("The text has to be a string!")
+#Check if the given language is a valid language:
+while source not in languages:
+    #Pass if source language should be auto detected
+    if source == "auto":
+        break
+
+    #Error message for invalid region code, request new language
+    print("\n\n\nYou have to insert a valid region code, for example 'de'. Please try again.")
+    source = input("What language is your text coming from?                   ")
+
+    #Check if valid input is given
+    if source in languages:
+        #Pass if valid language is given
+        pass
+
+#Check if text is a string, else raise exception
+while not isinstance(text, str):
+    #Error message for invalid 'text', request new
+    print("\n\n\nYou have to insert a valid text, for example 'Hello.'. Please try again.")
+    text = input("Insert your text:                                         ")
+
+    #Check if valid input is given
+    if isinstance(text, str):
+        #Pass if valid
+        pass
+
+#Detect language and set it to source (used for translating back to source language)
+if source == "auto":
+    testreq = json.loads(str(requests.post(url, json = api(text, source, "en")).text))["detectedLanguage"]
+    confidence = testreq["confidence"]
+    source = testreq["language"]
+
+    print("\n\n\nDetected langauge:", source, "| Probability:", confidence, "%")
 
 #Progress and percentage for progress bar
 progress = int(round(30/times))
@@ -55,17 +95,8 @@ translation_start = time.time()
 lang1 = random.choice(languages)
 lang2 = random.choice(languages)
 
-#Server API request
-request = {
-	'q': text,
-	'source': source,
-	'target': lang1,
-	'format': "text",
-	'api_key': ""
-}
-
 #Send API request
-translation = json.loads(str(requests.post(url, json = request).text))["translatedText"]
+translation = json.loads(str(requests.post(url, json = api(text, source, lang1)).text))["translatedText"]
 
 #Calculate progress bar, prints status output
 measured_time = time.time() - translation_start
@@ -86,17 +117,8 @@ for i in range(0, times-1):
     while lang2 == lang1:
         lang2 = random.choice(languages)
     
-    #API request
-    request = {
-		'q': translation,
-		'source': lang1,
-		'target': lang2,
-		'format': "text",
-		'api_key': ""
-	}
-    
     #Send API request
-    translation = json.loads(str(requests.post(url, json = request).text))["translatedText"]
+    translation = json.loads(str(requests.post(url, json = api(translation, lang1, lang2)).text))["translatedText"]
     
     #Calculate progress bar, prints status output
     measured_time = time.time() - translation_start
@@ -107,28 +129,19 @@ for i in range(0, times-1):
 print("\nTranslating back to source:", source)
 translation_start = time.time()
 
-#API request
-request = {
-		'q': translation,
-		'source': lang2,
-		'target': source,
-		'format': "text",
-		'api_key': ""
-	}
-
 #Send API request
-translation = json.loads(str(requests.post(url, json = request).text))["translatedText"]
+translation = json.loads(str(requests.post(url, json = api(translation, lang2, source)).text))["translatedText"]
 
 #Final translation, calculates time
 measured_time = time.time() - translation_start
-print("    Translating from", lang2, "to de -", round(measured_time, 2), "s")
+print("Translating from", lang2, "to de -", round(measured_time, 2), "s")
 
 #Final stats message, displays file output
 stop = time.time() - start
 print("\nFinal result in", round(stop, 2), "s (average", round((stop/(times+2)), 2), "s):\n", translation)
 
 #Optional: Save to file
-save = input("\nDo you want to save the file? (y/n) ")
+save = input("\nDo you want to save to file? (y/n) ")
 
 #If file should be saved: yes
 if save == "y":
@@ -165,4 +178,5 @@ else:
         #If file should be saved: no
         elif save == "n":
             #Proceed/ignore if file should not be saved
+            print("\n\n\n")
             break
