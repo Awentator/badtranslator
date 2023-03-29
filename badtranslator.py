@@ -27,7 +27,7 @@ readfromfile = input("Do you want to insert the text or read from file? (i/r)   
 #If text should be imported from a file
 if readfromfile == "r":
     #Ask for file name, open and read it
-    name = input ("What is the file's name? ")
+    name = input ("What is the file's name?                                  ")
     file = open(name, "r")
     text = file.read()
 elif readfromfile == "i":
@@ -39,7 +39,7 @@ else:
         readfromfile = input("Type 'r' to read from file or 'i' to directly insert your text: ")
         if readfromfile == "r":
             #Ask for file name, open and read it
-            name = input ("What is the file name?   ")
+            name = input ("What is the file's name?                                  ")
             file = open(name, "r")
             text = file.read()
             break
