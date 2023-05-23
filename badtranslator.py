@@ -73,7 +73,9 @@ while not isinstance(text, str):
     #Check if valid input is given
     if isinstance(text, str):
         #Pass if valid
-        pass
+	pass
+
+print("Processing...")
 
 #Detect language and set it to source (used for translating back to source language)
 if source == "auto":
@@ -173,10 +175,10 @@ else:
             file.write(translation)
             file.close()
 
-            print("Saved!")
+            print("Saved!\n\n\n")
             break
         #If file should be saved: no
         elif save == "n":
             #Proceed/ignore if file should not be saved
-            print("\n\n\n")
+            print("File will not be saved.\n\n\n")
             break
