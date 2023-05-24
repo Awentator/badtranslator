@@ -73,7 +73,7 @@ while not isinstance(text, str):
     #Check if valid input is given
     if isinstance(text, str):
         #Pass if valid
-	pass
+	    pass
 
 print("Processing...")
 
